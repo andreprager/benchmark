@@ -181,7 +181,7 @@ if (BENCHMARK_ENABLE_GTEST_TESTS)
     if (GTEST_INCLUDE_DIRS)
       target_include_directories(${name} PRIVATE ${GTEST_INCLUDE_DIRS})
     endif()
-    target_link_libraries(${name} benchmark
+    target_link_libraries(${name} benchmark benchmark_main
         ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
   endmacro(compile_gtest)
 
