@@ -121,8 +121,8 @@ void UseCharPointer(char const volatile*) {}
 
 }  // namespace internal
 
-State::State(size_t max_iters, const std::vector<int64_t>& ranges, int thread_i,
-             int n_threads, internal::ThreadTimer* timer,
+State::State(IterationCount max_iters, const std::vector<int64_t>& ranges,
+             int thread_i, int n_threads, internal::ThreadTimer* timer,
              internal::ThreadManager* manager)
     : total_iterations_(0),
       batch_leftover_(0),
@@ -233,7 +233,7 @@ void RunBenchmarks(const std::vector<BenchmarkInstance>& benchmarks,
   size_t stat_field_width = 0;
   for (const BenchmarkInstance& benchmark : benchmarks) {
     name_field_width =
-        std::max<size_t>(name_field_width, benchmark.name.size());
+        std::max<size_t>(name_field_width, benchmark.name.str().size());
     might_have_aggregates |= benchmark.repetitions > 1;
 
     for (const auto& Stat : *benchmark.statistics)
@@ -393,7 +393,8 @@ size_t RunSpecifiedBenchmarks(BenchmarkReporter* display_reporter,
   }
 
   if (FLAGS_benchmark_list_tests) {
-    for (auto const& benchmark : benchmarks) Out << benchmark.name << "\n";
+    for (auto const& benchmark : benchmarks)
+      Out << benchmark.name.str() << "\n";
   } else {
     internal::RunBenchmarks(benchmarks, display_reporter, file_reporter);
   }
